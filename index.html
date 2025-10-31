@@ -6,19 +6,23 @@
     <meta name="description" content="Виртуальный музей технологий будущего — экспонаты, идеи и концепты, которые могут изменить мир.">
     <title>Музей технологий будущего</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
 </head>
 <body class="page">
+    <!-- sticky header -->
     <header class="header">
-        <h1 class="header__title">Музей технологий будущего</h1>
-        <nav class="nav">
-            <ul class="nav__list">
-                <li><a href="#about" class="nav__link">О нас</a></li>
-                <li><a href="#exhibits" class="nav__link">Экспонаты</a></li>
-                <li><a href="#quotes" class="nav__link">Цитаты</a></li>
-                <li><a href="#contacts" class="nav__link">Контакты</a></li>
-            </ul>
-        </nav>
+        <div class="header__inner">
+            <h1 class="header__title">Музей технологий будущего</h1>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li><a href="#about" class="nav__link">О нас</a></li>
+                    <li><a href="#exhibits" class="nav__link">Экспонаты</a></li>
+                    <li><a href="#news" class="nav__link">Новости</a></li>
+                    <li><a href="#gallery" class="nav__link">Галерея</a></li>
+                    <li><a href="#contacts" class="nav__link">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main class="main">
@@ -32,50 +36,75 @@
             </p>
         </section>
 
-        <section id="exhibits" class="section section--exhibits">
-            <h2 class="section__title">Наши экспонаты</h2>
+        <!-- Экспонаты + боковая колонка: используются grid/flex -->
+        <section id="exhibits" class="section exhibits-grid">
+            <div class="exhibits-list">
+                <h2 class="section__title">Наши экспонаты</h2>
 
-            <article class="exhibit">
-                <h3 class="exhibit__title">Квантовый компьютер</h3>
-                <p class="exhibit__text">Устройство, способное решать задачи, недоступные даже самым мощным современным суперкомпьютерам.</p>
-                <ul class="exhibit__list">
-                    <li>Скорость вычислений</li>
-                    <li>Криптография будущего</li>
-                    <li>Искусственный интеллект</li>
-                </ul>
-            </article>
+                <article class="exhibit">
+                    <h3 class="exhibit__title">Квантовый компьютер</h3>
+                    <p class="exhibit__text">Устройство, способное решать задачи, недоступные даже самым мощным современным суперкомпьютерам.</p>
+                    <ul class="exhibit__list">
+                        <li>Скорость вычислений</li>
+                        <li>Криптография будущего</li>
+                        <li>Искусственный интеллект</li>
+                    </ul>
+                </article>
 
-            <article class="exhibit">
-                <h3 class="exhibit__title">Космический лифт</h3>
-                <p class="exhibit__text">Концепт транспортировки грузов и людей в космос при помощи кабеля длиной десятки тысяч километров.</p>
-                <ol class="exhibit__list">
-                    <li>Упрощение полётов</li>
-                    <li>Снижение стоимости запусков</li>
-                    <li>Новые горизонты для науки</li>
-                </ol>
-            </article>
+                <article class="exhibit">
+                    <h3 class="exhibit__title">Космический лифт</h3>
+                    <p class="exhibit__text">Концепт транспортировки грузов и людей в космос при помощи кабеля длиной десятки тысяч километров.</p>
+                    <ol class="exhibit__list">
+                        <li>Упрощение полётов</li>
+                        <li>Снижение стоимости запусков</li>
+                        <li>Новые горизонты для науки</li>
+                    </ol>
+                </article>
+
+                <!-- Новая вертикальная подборка новостей (вертикальный ряд элементов) -->
+                <section id="news" class="news">
+                    <h3 class="news__title">Подборка новостей</h3>
+                    <ul class="news__list">
+                        <li class="news__item">
+                            <h4>Новый экспонат: нейросеть-скульптор</h4>
+                            <p>Нейросеть превращает данные в 3D-скульптуры прямо на экспозиции.</p>
+                        </li>
+                        <li class="news__item">
+                            <h4>Выставка "Космос 2077"</h4>
+                            <p>Интерактивная экспозиция о возможных транспортных решениях.</p>
+                        </li>
+                        <li class="news__item">
+                            <h4>Лекция: квантовые интерфейсы</h4>
+                            <p>Онлайн трансляция с ведущими исследователями области.</p>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <aside class="aside">
+                <h2 class="aside__title">Интересный факт</h2>
+                <p class="aside__text">Первые концепции <em>космического лифта</em> предложил ещё в 1895 году русский учёный К. Э. Циолковский.</p>
+
+                <!-- рекламный баннер в футере по требованию — сделаю как блок, который можно скрывать -->
+                <div class="promo-banner">
+                    <p><strong>Реклама:</strong> билеты по специальной цене в эту субботу!</p>
+                </div>
+            </aside>
         </section>
 
-        <aside class="aside">
-            <h2 class="aside__title">Интересный факт</h2>
-            <p class="aside__text">Первые концепции <em>космического лифта</em> предложил ещё в 1895 году русский учёный К. Э. Циолковский.</p>
-        </aside>
-
-        <section id="quotes" class="section section--quotes">
-            <h2 class="section__title">Цитаты</h2>
-            <blockquote class="quote">
-                «Любая достаточно развитая технология неотличима от магии.»
-                <cite class="quote__author">— Артур Кларк</cite>
-            </blockquote>
+        <!-- Галерея: HORIZONTAL ROW (горизонтальная прокручиваемая галерея) -->
+        <section id="gallery" class="section gallery">
+            <h2 class="section__title">Галерея экспонатов</h2>
+            <div class="gallery__row">
+                <!-- используйте реальные изображения в папке images/ -->
+                <figure class="gallery__item"><img src="images/robot-exhibit.jpg" alt="Робот"><figcaption>Робот-гид</figcaption></figure>
+                <figure class="gallery__item"><img src="images/quantum.jpg" alt="Квантовый компьютер"><figcaption>Квантовый модуль</figcaption></figure>
+                <figure class="gallery__item"><img src="images/space-lift.jpg" alt="Космический лифт"><figcaption>Космический лифт (концепт)</figcaption></figure>
+                <figure class="gallery__item"><img src="images/ar-exhibit.jpg" alt="AR"><figcaption>AR-инсталляция</figcaption></figure>
+            </div>
         </section>
-        <section id="gallery">
-  <figure>
-    <img src="images/robot-exhibit.jpg" alt="Футуристический робот в музее">
-    <figcaption>Один из экспонатов музея — автономный робот-гид, демонстрирующий технологии будущего.</figcaption>
-  </figure>
-</section>
 
-
+        <!-- Код -->
         <section id="code" class="section section--code">
             <h2 class="section__title">Демо-код будущего ИИ</h2>
             <pre class="code-block"><code>
@@ -85,12 +114,83 @@ function predictFuture(data) {
 }
             </code></pre>
         </section>
+
+        <!-- Респонсивная таблица: семантическая таблица, но CSS использует grid чтобы колонки адаптировались -->
+        <section class="section table-section">
+            <h2 class="section__title">Таблица экспонатов (адаптивная)</h2>
+            <table class="responsive-table" summary="Сводная таблица экспонатов: название, категория, год, статус">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Год</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Квантовый компьютер</td>
+                        <td>Исследования</td>
+                        <td>2025</td>
+                        <td>Активный</td>
+                    </tr>
+                    <tr>
+                        <td>Космический лифт</td>
+                        <td>Проект</td>
+                        <td>2040</td>
+                        <td>Концепт</td>
+                    </tr>
+                    <tr>
+                        <td>Нейросеть-скульптор</td>
+                        <td>Инсталляция</td>
+                        <td>2024</td>
+                        <td>Выставлен</td>
+                    </tr>
+                    <tr>
+                        <td>AR-путеводитель</td>
+                        <td>Сервис</td>
+                        <td>2023</td>
+                        <td>Доступен</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 
     <footer id="contacts" class="footer">
         <h2 class="footer__title">Контакты</h2>
         <p class="footer__text">📧 Email: future@museum.ru</p>
         <p class="footer__text">📍 Адрес: Виртуальное пространство, сектор 2077</p>
+        <!-- рекламный баннер во всю ширину футера (скрывается на маленьких экранах медиа-запросом) -->
+        <div class="footer__banner">Большой баннер: специальные экскурсии — только в ноябре!</div>
     </footer>
+
+    <!-- Закреплённый чат (fixed) -->
+    <div class="chat-widget" aria-hidden="false">
+        <button class="chat-toggle" aria-label="Открыть чат">💬</button>
+        <div class="chat-window" role="dialog" aria-label="Чат музея">
+            <div class="chat-header">Чат музея <button class="chat-close" aria-label="Закрыть">×</button></div>
+            <div class="chat-body">
+                <p><em>Привет! Чем могу помочь?</em></p>
+            </div>
+            <div class="chat-controls">
+                <input type="text" placeholder="Напишите сообщение..." />
+                <button>Отправить</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // небольшой JS для показа/скрытия чата (можно не трогать)
+        (function(){
+            const widget = document.querySelector('.chat-widget');
+            const toggle = widget.querySelector('.chat-toggle');
+            const closeBtn = widget.querySelector('.chat-close');
+            const win = widget.querySelector('.chat-window');
+
+            toggle.addEventListener('click', ()=> win.classList.toggle('open'));
+            closeBtn.addEventListener('click', ()=> win.classList.remove('open'));
+        })();
+    </script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-/* === ШРИФТ И БАЗОВЫЕ НАСТРОЙКИ === */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;500&display=swap');
 
 * {
@@ -15,7 +14,6 @@ body {
     overflow-x: hidden;
 }
 
-/* === АНИМАЦИИ === */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -25,7 +23,6 @@ body {
     50% { text-shadow: 0 0 20px #00eaff, 0 0 40px #0088ff; }
 }
 
-/* === HEADER (STICKY) === */
 .header {
     background: linear-gradient(90deg, #051537, #0a1e45, #122b5a);
     position: sticky;
@@ -64,7 +61,6 @@ body {
 }
 .nav__link:hover { color: #00eaff; }
 
-/* === MAIN WRAPPER === */
 .main {
     width: 90%;
     max-width: 1200px;
@@ -78,7 +74,6 @@ body {
     animation: fadeIn 1s ease-out;
 }
 
-/* Общие секции */
 .section {
     margin-bottom: 22px;
     padding: 12px;
@@ -90,7 +85,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* === EXHIBITS GRID (двухколоночная область + aside) === */
 .exhibits-grid {
     display: grid;
     grid-template-columns: 1fr 320px;
@@ -98,7 +92,6 @@ body {
     align-items: start;
 }
 
-/* Внутри левой колонны контент */
 .exhibits-list .exhibit {
     background: rgba(0, 20, 40, 0.45);
     padding: 14px;
@@ -107,7 +100,6 @@ body {
     border: 1px solid rgba(0,255,255,0.06);
 }
 
-/* ASIDE */
 .aside {
     background: rgba(10, 30, 60, 0.6);
     padding: 18px;
@@ -121,7 +113,6 @@ body {
     border-radius: 6px;
 }
 
-/* === NEWS (вертикальный ряд) === */
 .news__list {
     list-style: none;
     margin-top: 10px;
@@ -136,16 +127,15 @@ body {
     border-left: 4px solid rgba(0,234,255,0.12);
 }
 
-/* === ГАЛЕРЕЯ: horizontal row === */
 .gallery__row {
     display: flex;
     gap: 12px;
-    overflow-x: auto; /* horizontal scrolling on small widths */
+    overflow-x: auto;
     padding-bottom: 8px;
     -webkit-overflow-scrolling: touch;
 }
 .gallery__item {
-    min-width: 260px; /* horizontal cards */
+    min-width: 260px;
     flex: 0 0 auto;
     border-radius: 10px;
     overflow: hidden;
@@ -162,7 +152,6 @@ body {
     border-radius: 6px;
 }
 
-/* === КОД БЛОК === */
 .code-block {
     background: rgba(0, 10, 20, 0.9);
     border: 1px solid #00eaff33;
@@ -173,23 +162,21 @@ body {
     overflow-x: auto;
 }
 
-/* === ТАБЛИЦА: семантическая, но CSS использует grid для адаптивности === */
-/* Важно: сохраняем <table>, <thead>, <tbody>, <tr>, <th>, <td> */
 .responsive-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 12px;
 
-    /* grid-based layout so columns can resize */
+
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* default: 4 колонки */
+    grid-template-columns: repeat(4, 1fr);
     gap: 0;
     background: rgba(0,0,0,0.18);
     border-radius: 6px;
     overflow: hidden;
 }
 
-/* allow header and body rows to flow as content so grid applies to cells */
+
 .responsive-table thead,
 .responsive-table tbody {
     display: contents;
@@ -204,7 +191,6 @@ body {
     font-size: 0.95rem;
 }
 
-/* стиль заголовка */
 .responsive-table th {
     background: linear-gradient(90deg, rgba(0,234,255,0.06), rgba(0,120,255,0.03));
     font-weight: 700;
@@ -212,7 +198,6 @@ body {
     border-bottom: 1px solid rgba(0,234,255,0.12);
 }
 
-/* чередование строк: используем nth-of-type на tr в tbody */
 .responsive-table tbody tr:nth-of-type(odd) td {
     background: rgba(255,255,255,0.02);
 }
@@ -220,7 +205,6 @@ body {
     background: rgba(0,234,255,0.02);
 }
 
-/* === FOOTER === */
 .footer {
     background: #000510;
     color: #00eaff;
@@ -237,7 +221,6 @@ body {
     border-radius: 6px;
 }
 
-/* === ЧАТ (fixed) === */
 .chat-widget {
     position: fixed;
     right: 18px;
@@ -298,45 +281,66 @@ body {
     color: #d8e3ff;
 }
 
-/* === MEDIA QUERIES: адаптация под разные устройства === */
 
-/* Смартфон (маленькие экраны) — 360px и меньше */
+nav a:link,
+nav a:visited,
+nav a:active {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+
+nav .star a {
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.35s ease;
+}
+
+nav .star a:hover {
+    background: rgba(0, 255, 255, 0.25);
+    box-shadow: 0 0 15px #00eaff, 0 0 30px #00bfff;
+    transform: scale(1.12);
+    color: #ffffff;
+}
+
+nav a.active {
+    color: #00eaff;
+    font-weight: bold;
+    border-bottom: 2px solid #00eaff;
+}
+
+
+
+
 @media (max-width: 360px) {
     .header__title { font-size: 1.1rem; }
-    .nav__list { display: none; } /* убираем меню, чтобы не ломать шапку (можно заменить бургер-меню) */
+    .nav__list { display: none; }
     .exhibits-grid { grid-template-columns: 1fr; }
     .aside { order: 2; }
     .gallery__item { min-width: 200px; }
-    /* таблица превращается в 2 колонки для компактности */
     .responsive-table { grid-template-columns: repeat(2, 1fr); }
-    /* скрываем широкий баннер в footer и промо на маленьких экранах */
     .footer__banner, .promo-banner { display: none; }
-    /* чат сокращаем (можно полностью скрыть если нужно) */
     .chat-window { width: 280px; }
 }
 
-/* Смартфон / портретные планшеты */
 @media (min-width: 361px) and (max-width: 767px) {
     .exhibits-grid { grid-template-columns: 1fr; }
     .responsive-table { grid-template-columns: repeat(2, 1fr); }
     .nav__list { gap: 12px; }
 }
 
-/* Ноутбук (обычный FullHD laptop, ширина ~ 1366–1920) */
 @media (min-width: 768px) and (max-width: 1366px) {
     .exhibits-grid { grid-template-columns: 1fr 300px; }
     .responsive-table { grid-template-columns: repeat(4, 1fr); }
     .gallery__item { min-width: 260px; }
 }
 
-/* WQHD (2560x1440) — увеличим максимальную ширину main, оставим больше пространства */
 @media (min-width: 1367px) and (max-width: 2559px) {
     .main { max-width: 1600px; }
     .exhibits-grid { grid-template-columns: 1fr 340px; }
     .gallery__item { min-width: 300px; height: 200px; }
 }
 
-/* Широкоформатный 21:9 (примерная ширина >= 2560 и очень широкие мониторы ~3440) */
 @media (min-width: 2560px) {
     .main { max-width: 2200px; }
     .exhibits-grid { grid-template-columns: 1.2fr 420px; }
@@ -344,7 +348,6 @@ body {
     .gallery__item { min-width: 360px; height: 240px; }
 }
 
-/* Дополнительная полировка: для печати / маленьких высот можно скрыть галерею */
 @media (max-height: 500px) {
     .gallery { display: none; }
 }

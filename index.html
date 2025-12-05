@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <script src="js/main.js" defer></script>
     <meta charset="UTF-8">
     <meta name="keywords" content="музей, технологии будущего, инновации, виртуальная реальность, футуризм">
     <meta name="description" content="Виртуальный музей технологий будущего — экспонаты, идеи и концепты, которые могут изменить мир.">
@@ -9,17 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
 </head>
 <body class="page">
-    <!-- sticky header -->
     <header class="header">
         <div class="header__inner">
             <h1 class="header__title">Музей технологий будущего</h1>
             <nav class="nav">
                 <ul class="nav__list">
-                    <li><a href="#about" class="nav__link">О нас</a></li>
-                    <li><a href="#exhibits" class="nav__link">Экспонаты</a></li>
-                    <li><a href="#news" class="nav__link">Новости</a></li>
-                    <li><a href="#gallery" class="nav__link">Галерея</a></li>
-                    <li><a href="#contacts" class="nav__link">Контакты</a></li>
+                    <li><a href="index.html" class="nav__link">Главная</a></li>
+                    <li><a href="about.html" class="nav__link">О нас</a></li>
+                    <li><a href="exhibits.html" class="nav__link">Экспонаты</a></li>
+                    <li><a href="news.html" class="nav__link">Новости</a></li>
+                   <li class="star"><a href="gallery.html">Галерея</a></li>
+                    <li><a href="contacts.html" class="nav__link">Контакты</a></li>
                 </ul>
             </nav>
         </div>
@@ -36,7 +37,6 @@
             </p>
         </section>
 
-        <!-- Экспонаты + боковая колонка: используются grid/flex -->
         <section id="exhibits" class="section exhibits-grid">
             <div class="exhibits-list">
                 <h2 class="section__title">Наши экспонаты</h2>
@@ -61,7 +61,7 @@
                     </ol>
                 </article>
 
-                <!-- Новая вертикальная подборка новостей (вертикальный ряд элементов) -->
+
                 <section id="news" class="news">
                     <h3 class="news__title">Подборка новостей</h3>
                     <ul class="news__list">
@@ -85,18 +85,15 @@
                 <h2 class="aside__title">Интересный факт</h2>
                 <p class="aside__text">Первые концепции <em>космического лифта</em> предложил ещё в 1895 году русский учёный К. Э. Циолковский.</p>
 
-                <!-- рекламный баннер в футере по требованию — сделаю как блок, который можно скрывать -->
                 <div class="promo-banner">
                     <p><strong>Реклама:</strong> билеты по специальной цене в эту субботу!</p>
                 </div>
             </aside>
         </section>
 
-        <!-- Галерея: HORIZONTAL ROW (горизонтальная прокручиваемая галерея) -->
         <section id="gallery" class="section gallery">
             <h2 class="section__title">Галерея экспонатов</h2>
             <div class="gallery__row">
-                <!-- используйте реальные изображения в папке images/ -->
                 <figure class="gallery__item"><img src="images/robot-exhibit.jpg" alt="Робот"><figcaption>Робот-гид</figcaption></figure>
                 <figure class="gallery__item"><img src="images/quantum.jpg" alt="Квантовый компьютер"><figcaption>Квантовый модуль</figcaption></figure>
                 <figure class="gallery__item"><img src="images/space-lift.jpg" alt="Космический лифт"><figcaption>Космический лифт (концепт)</figcaption></figure>
@@ -104,7 +101,6 @@
             </div>
         </section>
 
-        <!-- Код -->
         <section id="code" class="section section--code">
             <h2 class="section__title">Демо-код будущего ИИ</h2>
             <pre class="code-block"><code>
@@ -115,7 +111,6 @@ function predictFuture(data) {
             </code></pre>
         </section>
 
-        <!-- Респонсивная таблица: семантическая таблица, но CSS использует grid чтобы колонки адаптировались -->
         <section class="section table-section">
             <h2 class="section__title">Таблица экспонатов (адаптивная)</h2>
             <table class="responsive-table" summary="Сводная таблица экспонатов: название, категория, год, статус">
@@ -161,11 +156,9 @@ function predictFuture(data) {
         <h2 class="footer__title">Контакты</h2>
         <p class="footer__text">📧 Email: future@museum.ru</p>
         <p class="footer__text">📍 Адрес: Виртуальное пространство, сектор 2077</p>
-        <!-- рекламный баннер во всю ширину футера (скрывается на маленьких экранах медиа-запросом) -->
         <div class="footer__banner">Большой баннер: специальные экскурсии — только в ноябре!</div>
     </footer>
 
-    <!-- Закреплённый чат (fixed) -->
     <div class="chat-widget" aria-hidden="false">
         <button class="chat-toggle" aria-label="Открыть чат">💬</button>
         <div class="chat-window" role="dialog" aria-label="Чат музея">
@@ -181,7 +174,6 @@ function predictFuture(data) {
     </div>
 
     <script>
-        // небольшой JS для показа/скрытия чата (можно не трогать)
         (function(){
             const widget = document.querySelector('.chat-widget');
             const toggle = widget.querySelector('.chat-toggle');

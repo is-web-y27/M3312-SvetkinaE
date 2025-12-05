@@ -351,3 +351,73 @@ nav a.active {
 @media (max-height: 500px) {
     .gallery { display: none; }
 }
+
+.feedback-container {
+    width: 70%;
+    margin: 40px auto;
+    color: #e6f1ff;
+}
+
+.feedback-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 234, 255, 0.4);
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.1);
+    margin-bottom: 40px;
+}
+
+.feedback-card h2 {
+    color: #00eaff;
+}
+
+#feedbackForm input,
+#feedbackForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 234, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e6f1ff;
+}
+
+#feedbackForm input:focus,
+#feedbackForm textarea:focus {
+    outline: none;
+    box-shadow: 0 0 10px #00eaff;
+    border-color: #00eaff;
+}
+
+.neon-btn {
+    background: transparent;
+    border: 2px solid #00eaff;
+    color: #00eaff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.neon-btn:hover {
+    background: #00eaff;
+    color: #00111e;
+    box-shadow: 0 0 20px #00eaff;
+}
+
+.neon-btn-small {
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+.feedback-item {
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.neon-border {
+    border: 1px solid rgba(0, 234, 255, 0.4);
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.1);
+}

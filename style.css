@@ -421,3 +421,87 @@ nav a.active {
     border: 1px solid rgba(0, 234, 255, 0.4);
     box-shadow: 0 0 15px rgba(0, 234, 255, 0.1);
 }
+
+header {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comments-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.comments-container h1 {
+    color: #b8d7ff;
+    text-shadow: 0 0 10px #009fff;
+    margin-bottom: 30px;
+}
+
+.load-btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    background: #072c56;
+    color: #b8d7ff;
+    border: 2px solid #009fff;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.load-btn:hover {
+    background: #009fff;
+    color: #001a33;
+}
+
+.comment-card {
+    background: rgba(0, 20, 40, 0.8);
+    padding: 20px;
+    border-left: 4px solid #00aaff;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #003566;
+}
+
+.comment-card h3 {
+    color: #c3e6ff;
+    margin-bottom: 10px;
+    font-size: 22px;
+    text-shadow: 0 0 6px #0066ff;
+}
+
+.comment-card p {
+    color: #a8c6e3;
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #003b6f;
+    border-top-color: #00b7ff;
+    border-radius: 50%;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+.error {
+    padding: 20px;
+    background: rgba(255, 80, 80, 0.15);
+    border-left: 4px solid #ff4444;
+    color: #ff9999;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}

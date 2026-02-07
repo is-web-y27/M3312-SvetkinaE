@@ -1,5 +1,4 @@
-(function() {
-
+export function initFeedback() {
     const form = document.getElementById("feedbackForm");
     const list = document.getElementById("feedbackList");
     const template = document.querySelector("#template .feedback-item");
@@ -60,5 +59,4 @@
 
         form.reset();
     });
-
-})();
+}

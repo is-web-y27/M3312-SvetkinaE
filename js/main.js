@@ -1,3 +1,21 @@
+import { initParticles } from './particles.js';
+import { initChat } from './chat.js';
+import { initMuseumMap } from './museumMap.js';
+import { initFeedback } from './ui/feedback.js';
+
+if (document.getElementById("feedbackForm")) {
+    initFeedback();
+}
+
+
+if (document.getElementById('particles-js')) {
+    initParticles();
+}
+
+initChat();
+
+initMuseumMap();
+
 (function () {
     const start = performance.now();
 

@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <script src="js/main.js" defer></script>
+
+    <script type="module" src="../js/main.js"></script>
     <meta charset="UTF-8">
     <meta name="keywords" content="музей, технологии будущего, инновации, виртуальная реальность, футуризм">
     <meta name="description" content="Виртуальный музей технологий будущего — экспонаты, идеи и концепты, которые могут изменить мир.">
     <title>Музей технологий будущего</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+    <script src="https://cdn.jsdelivr.net/npm/ol/dist/ol.js"></script>
+
 </head>
 <body class="page">
     <header class="header">
+        <div id="particles-js"></div>
         <div class="header__inner">
             <h1 class="header__title">Музей технологий будущего</h1>
             <nav class="nav">
@@ -95,10 +101,10 @@
         <section id="gallery" class="section gallery">
             <h2 class="section__title">Галерея экспонатов</h2>
             <div class="gallery__row">
-                <figure class="gallery__item"><img src="images/robot-exhibit.jpg" alt="Робот"><figcaption>Робот-гид</figcaption></figure>
-                <figure class="gallery__item"><img src="images/quantum.jpg" alt="Квантовый компьютер"><figcaption>Квантовый модуль</figcaption></figure>
-                <figure class="gallery__item"><img src="images/space-lift.jpg" alt="Космический лифт"><figcaption>Космический лифт (концепт)</figcaption></figure>
-                <figure class="gallery__item"><img src="images/ar-exhibit.jpg" alt="AR"><figcaption>AR-инсталляция</figcaption></figure>
+                <figure class="gallery__item"><img src="../images/robot-exhibit.jpg" alt="Робот"><figcaption>Робот-гид</figcaption></figure>
+                <figure class="gallery__item"><img src="../images/quantum.jpg" alt="Квантовый компьютер"><figcaption>Квантовый модуль</figcaption></figure>
+                <figure class="gallery__item"><img src="../images/space-lift.jpg" alt="Космический лифт"><figcaption>Космический лифт (концепт)</figcaption></figure>
+                <figure class="gallery__item"><img src="../images/ar-exhibit.jpg" alt="AR"><figcaption>AR-инсталляция</figcaption></figure>
             </div>
         </section>
 
@@ -158,6 +164,7 @@ function predictFuture(data) {
         <p class="footer__text">📧 Email: future@museum.ru</p>
         <p class="footer__text">📍 Адрес: Виртуальное пространство, сектор 2077</p>
         <div class="footer__banner">Большой баннер: специальные экскурсии — только в ноябре!</div>
+        <div id="map" style="height: 360px; margin-top: 20px;"></div>
     </footer>
 
     <div class="chat-widget" aria-hidden="false">
@@ -173,17 +180,5 @@ function predictFuture(data) {
             </div>
         </div>
     </div>
-
-    <script>
-        (function(){
-            const widget = document.querySelector('.chat-widget');
-            const toggle = widget.querySelector('.chat-toggle');
-            const closeBtn = widget.querySelector('.chat-close');
-            const win = widget.querySelector('.chat-window');
-
-            toggle.addEventListener('click', ()=> win.classList.toggle('open'));
-            closeBtn.addEventListener('click', ()=> win.classList.remove('open'));
-        })();
-    </script>
 </body>
 </html>

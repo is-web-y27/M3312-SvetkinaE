@@ -23,6 +23,8 @@ body {
     50% { text-shadow: 0 0 20px #00eaff, 0 0 40px #0088ff; }
 }
 
+@media (min-)
+
 .header {
     background: linear-gradient(90deg, #051537, #0a1e45, #122b5a);
     position: sticky;
@@ -52,6 +54,7 @@ body {
 .nav__list {
     list-style: none;
     display: flex;
+    flex-direction: column;
     gap: 18px;
 }
 .nav__link {

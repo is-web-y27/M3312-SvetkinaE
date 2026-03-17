@@ -1,7 +1,7 @@
 import { initParticles } from './particles.js';
 import { initChat } from './chat.js';
 import { initMuseumMap } from './museumMap.js';
-import { initFeedback } from './ui/feedback.js';
+import { initFeedback } from './feedback.js';
 
 if (document.getElementById("feedbackForm")) {
     initFeedback();
@@ -31,7 +31,7 @@ initMuseumMap();
 })();
 
 (function() {
-    const currentPage = document.location.pathname.split("/").pop(); // имя файла
+    const currentPage = document.location.pathname.split("/").pop();
 
     const menuLinks = document.querySelectorAll("nav a");
 
@@ -43,3 +43,4 @@ initMuseumMap();
         }
     });
 })();
+

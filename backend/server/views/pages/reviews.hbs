@@ -1,0 +1,16 @@
+{{> head}}
+<body class="page">
+  {{> header}}
+
+  <main class="comments-container">
+    <h1>Отзывы посетителей</h1>
+
+    <div id="loader" class="loader hidden"></div>
+    <div id="error" class="error hidden"></div>
+
+    <button id="loadBtn" class="load-btn">Загрузить другие отзывы</button>
+    <div id="commentsList"></div>
+  </main>
+
+  <script src="/js/reviews.js"></script>
+  {{> footer}}

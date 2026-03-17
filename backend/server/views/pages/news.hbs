@@ -1,0 +1,19 @@
+{{> head}}
+<body class="page">
+  {{> header}}
+
+  <main class="main">
+    <section class="section">
+      <h2 class="section__title">Новости</h2>
+      <ul class="news__list">
+        {{#each news}}
+          <li class="news__item">
+            <h4>{{title}}</h4>
+            <p>{{text}}</p>
+          </li>
+        {{/each}}
+      </ul>
+    </section>
+  </main>
+
+  {{> footer}}

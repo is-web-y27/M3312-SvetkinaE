@@ -1,0 +1,36 @@
+{{> head}}
+<body class="page">
+  {{> header}}
+
+  <main class="main">
+    <h1 class="page-title">Обратная связь</h1>
+
+    <div class="feedback-container">
+      <form id="feedbackForm" class="feedback-card">
+        <h2>Оставьте отзыв</h2>
+
+        <label>Имя:</label>
+        <input type="text" id="name" required minlength="2" />
+
+        <label>Email:</label>
+        <input type="email" id="email" required />
+
+        <label>Сообщение:</label>
+        <textarea id="message" required minlength="5"></textarea>
+
+        <button type="submit" class="neon-btn">Отправить</button>
+      </form>
+
+      <div id="template" style="display: none;">
+        <div class="feedback-item neon-border">
+          <p><strong class="item-name"></strong> (<span class="item-email"></span>)</p>
+          <p class="item-message"></p>
+          <button class="edit-btn neon-btn-small">Редактировать</button>
+        </div>
+      </div>
+
+      <div id="feedbackList"></div>
+    </div>
+  </main>
+
+  {{> footer}}

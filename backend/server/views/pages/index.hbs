@@ -1,0 +1,68 @@
+{{> head}}
+<body class="page">
+  {{> header}}
+
+  <main class="main">
+    <section class="section section--about">
+      <h2 class="section__title">О нас</h2>
+      <p class="section__text">
+        Добро пожаловать в <strong>виртуальный музей</strong>, где собраны
+        <em>самые необычные и футуристические изобретения</em>, способные изменить наш мир.
+        Мы верим, что <ins>технологии будущего</ins> уже начинаются сегодня.
+        Всё устаревшее мы смело <del>оставляем в прошлом</del>.
+      </p>
+    </section>
+
+    <section class="section exhibits-grid">
+      <div class="exhibits-list">
+        <h2 class="section__title">Наши экспонаты</h2>
+        {{#each exhibits}}
+          {{> exhibitCard}}
+        {{/each}}
+
+        <section class="news">
+          <h3 class="news__title">Подборка новостей</h3>
+          <ul class="news__list">
+            {{#each news}}
+              <li class="news__item">
+                <h4>{{title}}</h4>
+                <p>{{text}}</p>
+              </li>
+            {{/each}}
+          </ul>
+        </section>
+      </div>
+
+      <aside class="aside">
+        <h2 class="aside__title">Интересный факт</h2>
+        <p class="aside__text">
+          Первые концепции <em>космического лифта</em> предложил ещё в 1895 году русский учёный К. Э. Циолковский.
+        </p>
+
+        <div class="promo-banner">
+          <p><strong>Реклама:</strong> билеты по специальной цене в эту субботу!</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section gallery">
+      <h2 class="section__title">Галерея экспонатов</h2>
+      <div class="gallery__row">
+        <figure class="gallery__item"><img src="/images/robot-exhibit.jpg" alt="Робот"><figcaption>Робот-гид</figcaption></figure>
+        <figure class="gallery__item"><img src="/images/quantum.jpg" alt="Квантовый компьютер"><figcaption>Квантовый модуль</figcaption></figure>
+        <figure class="gallery__item"><img src="/images/space-lift.jpg" alt="Космический лифт"><figcaption>Космический лифт (концепт)</figcaption></figure>
+        <figure class="gallery__item"><img src="/images/ar-exhibit.jpg" alt="AR"><figcaption>AR-инсталляция</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="section section--code">
+      <h2 class="section__title">Демо-код будущего ИИ</h2>
+      <pre class="code-block"><code>
+function predictFuture(data) {
+  return "Вероятность развития события: " + Math.random().toFixed(2);
+}
+      </code></pre>
+    </section>
+  </main>
+
+  {{> footer}}

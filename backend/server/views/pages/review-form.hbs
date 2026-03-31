@@ -1,0 +1,45 @@
+{{> head}}
+<body class="page">
+  {{> header}}
+
+  <main class="main">
+    <section class="section">
+      <h2 class="section__title">{{title}}</h2>
+      <form method="post" action="{{action}}">
+        <p>
+          <label>Оценка (1-5)</label><br>
+          <input type="number" name="rating" min="1" max="5" value="{{#if item}}{{item.rating}}{{else}}5{{/if}}" required>
+        </p>
+        <p>
+          <label>Текст</label><br>
+          <textarea name="text" required>{{#if item}}{{item.text}}{{/if}}</textarea>
+        </p>
+        <p>
+          <label>Посетитель</label><br>
+          <select name="visitorId" required>
+            {{#if item.visitor}}
+              <option value="{{item.visitor.id}}" selected>{{item.visitor.name}}</option>
+            {{/if}}
+            {{#each visitors}}
+              <option value="{{id}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </p>
+        <p>
+          <label>Экспонат</label><br>
+          <select name="exhibitId" required>
+            {{#if item.exhibit}}
+              <option value="{{item.exhibit.id}}" selected>{{item.exhibit.title}}</option>
+            {{/if}}
+            {{#each exhibits}}
+              <option value="{{id}}">{{title}}</option>
+            {{/each}}
+          </select>
+        </p>
+        <button type="submit">Сохранить</button>
+      </form>
+      <p><a href="/reviews">Назад к списку</a></p>
+    </section>
+  </main>
+
+  {{> footer}}

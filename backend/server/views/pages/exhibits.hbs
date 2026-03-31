@@ -5,9 +5,24 @@
   <main class="main">
     <section class="section">
       <h2 class="section__title">Экспонаты</h2>
+      {{#if isAuth}}
+        <p><a href="/exhibits/add">Добавить экспонат</a></p>
+      {{/if}}
       <div class="exhibits-list">
         {{#each exhibits}}
-          {{> exhibitCard}}
+          <article class="exhibit">
+            <h3 class="exhibit__title">{{title}}</h3>
+            <p class="exhibit__text">{{description}}</p>
+            <p>Категория: {{category.name}}</p>
+            <p>
+              <a href="/exhibits/{{id}}">Открыть</a>
+              |
+              <a href="/exhibits/{{id}}/edit">Редактировать</a>
+            </p>
+            <form method="post" action="/exhibits/{{id}}/delete">
+              <button type="submit">Удалить</button>
+            </form>
+          </article>
         {{/each}}
       </div>
     </section>

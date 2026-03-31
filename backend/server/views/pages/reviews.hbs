@@ -2,15 +2,31 @@
 <body class="page">
   {{> header}}
 
-  <main class="comments-container">
-    <h1>Отзывы посетителей</h1>
-
-    <div id="loader" class="loader hidden"></div>
-    <div id="error" class="error hidden"></div>
-
-    <button id="loadBtn" class="load-btn">Загрузить другие отзывы</button>
-    <div id="commentsList"></div>
+  <main class="main">
+    <section class="section">
+      <h2 class="section__title">Отзывы посетителей</h2>
+      {{#if isAuth}}
+        <p><a href="/reviews/add">Добавить отзыв</a></p>
+      {{/if}}
+      <div class="news__list">
+        {{#each reviews}}
+          <article class="news__item">
+            <h4>Оценка: {{rating}}/5</h4>
+            <p>{{text}}</p>
+            <p>Посетитель: {{visitor.name}}</p>
+            <p>Экспонат: {{exhibit.title}}</p>
+            <p>
+              <a href="/reviews/{{id}}">Открыть</a>
+              |
+              <a href="/reviews/{{id}}/edit">Редактировать</a>
+            </p>
+            <form method="post" action="/reviews/{{id}}/delete">
+              <button type="submit">Удалить</button>
+            </form>
+          </article>
+        {{/each}}
+      </div>
+    </section>
   </main>
 
-  <script src="/js/reviews.js"></script>
   {{> footer}}

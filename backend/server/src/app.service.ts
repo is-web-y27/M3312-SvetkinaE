@@ -1,40 +1,23 @@
 import { Injectable } from '@nestjs/common';
-
-export type Exhibit = {
-  title: string;
-  description: string;
-  tags: string[];
-};
+import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class AppService {
-  getExhibits(): Exhibit[] {
-    return [
-      {
-        title: 'Квантовый компьютер',
-        description:
-          'Устройство, способное решать задачи, недоступные даже самым мощным современным суперкомпьютерам.',
-        tags: ['Скорость вычислений', 'Криптография будущего', 'Искусственный интеллект'],
-      },
-      {
-        title: 'Космический лифт',
-        description:
-          'Концепт транспортировки грузов и людей в космос при помощи кабеля длиной десятки тысяч километров.',
-        tags: ['Упрощение полётов', 'Снижение стоимости запусков', 'Новые горизонты для науки'],
-      },
-      {
-        title: 'Нейросеть-скульптор',
-        description: 'Нейросеть превращает данные в 3D-скульптуры прямо на экспозиции.',
-        tags: ['3D-арт', 'Генеративные модели', 'Интерактив'],
-      },
-    ];
+  constructor(private readonly prisma: PrismaService) {}
+
+  async getExhibits() {
+    return this.prisma.exhibit.findMany({
+      include: { category: true },
+      orderBy: { id: 'desc' },
+      take: 3,
+    });
   }
 
-  getNews(): { title: string; text: string }[] {
-    return [
-      { title: 'Новый экспонат: нейросеть-скульптор', text: 'Данные превращаются в 3D-скульптуры прямо на экспозиции.' },
-      { title: 'Выставка "Космос 2077"', text: 'Интерактивная экспозиция о возможных транспортных решениях.' },
-      { title: 'Лекция: квантовые интерфейсы', text: 'Онлайн трансляция с ведущими исследователями области.' },
-    ];
+  async getNews() {
+    return this.prisma.news.findMany({
+      include: { exhibit: true },
+      orderBy: { id: 'desc' },
+      take: 3,
+    });
   }
 }

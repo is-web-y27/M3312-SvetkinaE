@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Visitor {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  createdAt DateTime   @default(now())
+  reviews   Review[]
+  feedbacks Feedback[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  exhibits    Exhibit[]
+}
+
+model Exhibit {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime     @default(now())
+  categoryId  Int
+  category    Category     @relation(fields: [categoryId], references: [id])
+  news        News[]
+  reviews     Review[]
+  gallery     GalleryItem[]
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  text        String
+  publishedAt DateTime @default(now())
+  exhibitId   Int?
+  exhibit     Exhibit? @relation(fields: [exhibitId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  text      String
+  createdAt DateTime @default(now())
+  visitorId Int
+  exhibitId Int
+  visitor   Visitor  @relation(fields: [visitorId], references: [id])
+  exhibit   Exhibit  @relation(fields: [exhibitId], references: [id])
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  message   String
+  createdAt DateTime @default(now())
+  visitorId Int
+  visitor   Visitor  @relation(fields: [visitorId], references: [id])
+}
+
+model GalleryItem {
+  id       Int     @id @default(autoincrement())
+  imageUrl String
+  caption  String?
+  exhibitId Int
+  exhibit  Exhibit @relation(fields: [exhibitId], references: [id])
+}

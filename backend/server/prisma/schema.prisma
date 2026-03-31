@@ -13,7 +13,6 @@ model Visitor {
   email     String     @unique
   createdAt DateTime   @default(now())
   reviews   Review[]
-  feedbacks Feedback[]
 }
 
 model Category {
@@ -32,7 +31,6 @@ model Exhibit {
   category    Category     @relation(fields: [categoryId], references: [id])
   news        News[]
   reviews     Review[]
-  gallery     GalleryItem[]
 }
 
 model News {
@@ -53,20 +51,4 @@ model Review {
   exhibitId Int
   visitor   Visitor  @relation(fields: [visitorId], references: [id])
   exhibit   Exhibit  @relation(fields: [exhibitId], references: [id])
-}
-
-model Feedback {
-  id        Int      @id @default(autoincrement())
-  message   String
-  createdAt DateTime @default(now())
-  visitorId Int
-  visitor   Visitor  @relation(fields: [visitorId], references: [id])
-}
-
-model GalleryItem {
-  id       Int     @id @default(autoincrement())
-  imageUrl String
-  caption  String?
-  exhibitId Int
-  exhibit  Exhibit @relation(fields: [exhibitId], references: [id])
 }

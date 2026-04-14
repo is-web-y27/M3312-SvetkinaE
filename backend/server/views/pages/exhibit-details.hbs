@@ -8,12 +8,12 @@
       <p>{{exhibit.description}}</p>
       <p>Категория: {{exhibit.category.name}}</p>
       <p>
-        <a href="/exhibits/{{exhibit.id}}/edit">Редактировать</a>
+        <a href="/exhibits/{{exhibit.id}}/edit{{authQ isAuth}}">Редактировать</a>
       </p>
-      <form method="post" action="/exhibits/{{exhibit.id}}/delete">
+      <form method="post" action="/exhibits/{{exhibit.id}}/delete{{authQ isAuth}}">
         <button type="submit">Удалить</button>
       </form>
-      <p><a href="/exhibits">Назад к списку</a></p>
+      <p><a href="/exhibits{{authQ isAuth}}">Назад к списку</a></p>
     </section>
   </main>
 

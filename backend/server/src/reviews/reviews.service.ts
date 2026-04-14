@@ -62,6 +62,19 @@ export class ReviewsService {
     });
   }
 
+  async findManyPaged(skip: number, take: number) {
+    const [data, total] = await Promise.all([
+      this.prisma.review.findMany({
+        skip,
+        take,
+        include: { visitor: true, exhibit: true },
+        orderBy: { id: 'desc' },
+      }),
+      this.prisma.review.count(),
+    ]);
+    return { data, total };
+  }
+
   async findOne(id: number) {
     const review = await this.prisma.review.findUnique({
       where: { id },
@@ -78,7 +91,7 @@ export class ReviewsService {
     return this.prisma.review.create({ data });
   }
 
-  async update(id: number, data: ReviewInput) {
+  async update(id: number, data: Partial<ReviewInput>) {
     await this.findOne(id);
     return this.prisma.review.update({
       where: { id },

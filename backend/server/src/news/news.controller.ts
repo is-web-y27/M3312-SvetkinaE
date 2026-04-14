@@ -1,5 +1,7 @@
-import { Body, Controller, Delete, Get, MessageEvent, Param, ParseIntPipe, Patch, Post, Query, Redirect, Render, Sse } from '@nestjs/common';
+import { Body, Controller, Get, MessageEvent, Param, ParseIntPipe, Post, Query, Render, Res, Sse } from '@nestjs/common';
+import type { Response } from 'express';
 import { Observable, Subject } from 'rxjs';
+import { authRedirectSuffix, isAuthQuery } from '../common/auth-query';
 import { NewsService } from './news.service';
 
 type NewsBody = {
@@ -22,10 +24,11 @@ export class NewsController {
   @Get()
   @Render('pages/news')
   async findAllPage(@Query('auth') auth?: string) {
-    const isAuth = auth === '1' || auth === 'true';
+    const isAuth = isAuthQuery(auth);
     return {
       title: 'Новости',
       isAuth,
+      userName: 'Гость',
       news: await this.newsService.findAll(),
       active: { news: true },
     };
@@ -33,90 +36,92 @@ export class NewsController {
 
   @Get('add')
   @Render('pages/news-form')
-  async addPage() {
+  async addPage(@Query('auth') auth?: string) {
+    const isAuth = isAuthQuery(auth);
     return {
       title: 'Добавить новость',
       action: '/news',
       item: null,
       exhibits: await this.newsService.getExhibits(),
       active: { news: true },
+      isAuth,
+      userName: 'Гость',
     };
   }
 
   @Get(':id')
   @Render('pages/news-details')
-  async findOnePage(@Param('id', ParseIntPipe) id: number) {
+  async findOnePage(@Param('id', ParseIntPipe) id: number, @Query('auth') auth?: string) {
+    const isAuth = isAuthQuery(auth);
     return {
       title: 'Карточка новости',
       item: await this.newsService.findOne(id),
       active: { news: true },
+      isAuth,
+      userName: 'Гость',
     };
   }
 
   @Get(':id/edit')
   @Render('pages/news-form')
-  async editPage(@Param('id', ParseIntPipe) id: number) {
+  async editPage(@Param('id', ParseIntPipe) id: number, @Query('auth') auth?: string) {
+    const isAuth = isAuthQuery(auth);
     return {
       title: 'Редактировать новость',
       action: `/news/${id}/edit`,
       item: await this.newsService.findOne(id),
       exhibits: await this.newsService.getExhibits(),
       active: { news: true },
+      isAuth,
+      userName: 'Гость',
     };
   }
 
   @Post()
-  @Redirect('/news')
-  async createPage(@Body() body: NewsBody) {
+  async createPage(@Body() body: NewsBody, @Res() res: Response, @Query('auth') auth?: string) {
     const created = await this.newsService.create({
       title: body.title,
       text: body.text,
       exhibitId: body.exhibitId ? Number(body.exhibitId) : null,
     });
     this.events.next({
-      data: {
+      data: JSON.stringify({
         message: `Добавлена новость #${created.id}: ${created.title}`,
-      },
+      }),
     });
+    return res.redirect(302, `/news${authRedirectSuffix(auth)}`);
   }
 
   @Post(':id/edit')
-  @Redirect('/news')
-  async updatePage(@Param('id', ParseIntPipe) id: number, @Body() body: NewsBody) {
+  async updatePage(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: NewsBody,
+    @Res() res: Response,
+    @Query('auth') auth?: string,
+  ) {
     const updated = await this.newsService.update(id, {
       title: body.title,
       text: body.text,
       exhibitId: body.exhibitId ? Number(body.exhibitId) : null,
     });
     this.events.next({
-      data: {
+      data: JSON.stringify({
         message: `Обновлена новость #${updated.id}: ${updated.title}`,
-      },
+      }),
     });
+    return res.redirect(302, `/news${authRedirectSuffix(auth)}`);
   }
 
   @Post(':id/delete')
-  @Redirect('/news')
-  async deletePage(@Param('id', ParseIntPipe) id: number) {
+  async deletePage(
+    @Param('id', ParseIntPipe) id: number,
+    @Res() res: Response,
+    @Query('auth') auth?: string,
+  ) {
     await this.newsService.remove(id);
     this.events.next({
-      data: {
-        message: `Удалена новость #${id}`,
-      },
+      data: JSON.stringify({ message: `Удалена новость #${id}` }),
     });
-  }
-
-  @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() body: NewsBody) {
-    return this.newsService.update(id, {
-      title: body.title,
-      text: body.text,
-      exhibitId: body.exhibitId ? Number(body.exhibitId) : null,
-    });
-  }
-
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.newsService.remove(id);
+    return res.redirect(302, `/news${authRedirectSuffix(auth)}`);
   }
 }

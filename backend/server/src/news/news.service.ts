@@ -18,6 +18,19 @@ export class NewsService {
     });
   }
 
+  async findManyPaged(skip: number, take: number) {
+    const [data, total] = await Promise.all([
+      this.prisma.news.findMany({
+        skip,
+        take,
+        include: { exhibit: true },
+        orderBy: { id: 'desc' },
+      }),
+      this.prisma.news.count(),
+    ]);
+    return { data, total };
+  }
+
   async findOne(id: number) {
     const news = await this.prisma.news.findUnique({
       where: { id },
@@ -37,7 +50,7 @@ export class NewsService {
     return this.prisma.news.create({ data });
   }
 
-  async update(id: number, data: NewsInput) {
+  async update(id: number, data: Partial<NewsInput>) {
     await this.findOne(id);
     return this.prisma.news.update({
       where: { id },

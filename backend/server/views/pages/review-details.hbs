@@ -10,12 +10,12 @@
       <p>Посетитель: {{item.visitor.name}}</p>
       <p>Экспонат: {{item.exhibit.title}}</p>
       <p>
-        <a href="/reviews/{{item.id}}/edit">Редактировать</a>
+        <a href="/reviews/{{item.id}}/edit{{authQ isAuth}}">Редактировать</a>
       </p>
-      <form method="post" action="/reviews/{{item.id}}/delete">
+      <form method="post" action="/reviews/{{item.id}}/delete{{authQ isAuth}}">
         <button type="submit">Удалить</button>
       </form>
-      <p><a href="/reviews">Назад к списку</a></p>
+      <p><a href="/reviews{{authQ isAuth}}">Назад к списку</a></p>
     </section>
   </main>
 

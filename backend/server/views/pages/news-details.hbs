@@ -11,12 +11,12 @@
         <p>Экспонат: {{item.exhibit.title}}</p>
       {{/if}}
       <p>
-        <a href="/news/{{item.id}}/edit">Редактировать</a>
+        <a href="/news/{{item.id}}/edit{{authQ isAuth}}">Редактировать</a>
       </p>
-      <form method="post" action="/news/{{item.id}}/delete">
+      <form method="post" action="/news/{{item.id}}/delete{{authQ isAuth}}">
         <button type="submit">Удалить</button>
       </form>
-      <p><a href="/news">Назад к списку</a></p>
+      <p><a href="/news{{authQ isAuth}}">Назад к списку</a></p>
     </section>
   </main>
 

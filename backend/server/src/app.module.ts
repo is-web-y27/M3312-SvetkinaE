@@ -8,9 +8,19 @@ import { NewsModule } from './news/news.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { CategoriesModule } from './categories/categories.module';
 import { VisitorsModule } from './visitors/visitors.module';
+import { MuseumGraphqlModule } from './graphql/museum-graphql.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), PrismaModule, ExhibitsModule, NewsModule, ReviewsModule, CategoriesModule, VisitorsModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    PrismaModule,
+    ExhibitsModule,
+    NewsModule,
+    ReviewsModule,
+    CategoriesModule,
+    VisitorsModule,
+    MuseumGraphqlModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

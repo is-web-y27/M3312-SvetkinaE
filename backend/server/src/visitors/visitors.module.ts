@@ -5,5 +5,6 @@ import { VisitorsService } from './visitors.service';
 @Module({
   controllers: [VisitorsApiController],
   providers: [VisitorsService],
+  exports: [VisitorsService],
 })
 export class VisitorsModule {}

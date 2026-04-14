@@ -6,5 +6,6 @@ import { ExhibitsService } from './exhibits.service';
 @Module({
   controllers: [ExhibitsController, ExhibitsApiController],
   providers: [ExhibitsService],
+  exports: [ExhibitsService],
 })
 export class ExhibitsModule {}

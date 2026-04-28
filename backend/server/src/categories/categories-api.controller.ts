@@ -10,6 +10,7 @@ import {
   Query,
   Req,
   Res,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -25,17 +26,21 @@ import {
 import type { Request, Response } from 'express';
 import { PaginationQueryDto, normalizePagination } from '../common/dto/pagination-query.dto';
 import { setPaginationLinkHeader } from '../common/pagination-links';
+import { RestCache } from '../common/decorators/rest-cache.decorator';
+import { RestEtagInterceptor } from '../common/interceptors/rest-etag.interceptor';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @ApiTags('categories')
 @Controller('api/categories')
+@UseInterceptors(RestEtagInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true, forbidNonWhitelisted: true }))
 export class CategoriesApiController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Get()
+  @RestCache(3600)
   @ApiOperation({ summary: 'Список категорий' })
   @ApiOkResponse({ description: 'Страница коллекции, заголовок Link' })
   @ApiBadRequestResponse()
@@ -51,6 +56,7 @@ export class CategoriesApiController {
   }
 
   @Get(':id/exhibits/:exhibitId')
+  @RestCache(3600)
   @ApiOperation({ summary: 'Один экспонат в контексте категории' })
   @ApiOkResponse({ description: 'Экспонат' })
   @ApiNotFoundResponse()
@@ -62,6 +68,7 @@ export class CategoriesApiController {
   }
 
   @Get(':id/exhibits')
+  @RestCache(3600)
   @ApiOperation({ summary: 'Экспонаты категории' })
   @ApiOkResponse({ description: 'Страница экспонатов' })
   @ApiBadRequestResponse()
@@ -83,6 +90,7 @@ export class CategoriesApiController {
   }
 
   @Get(':id')
+  @RestCache(3600)
   @ApiOperation({ summary: 'Одна категория' })
   @ApiOkResponse({ description: 'Категория' })
   @ApiNotFoundResponse()

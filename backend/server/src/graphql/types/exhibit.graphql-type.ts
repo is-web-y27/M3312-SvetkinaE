@@ -18,6 +18,12 @@ export class Exhibit {
   @Field(() => Int, { description: 'Идентификатор категории, к которой относится экспонат' })
   categoryId: number;
 
+  @Field(() => String, {
+    nullable: true,
+    description: 'Публичный URL изображения-обложки (Object Storage)',
+  })
+  coverImageUrl?: string | null;
+
   @Field(() => Category, { description: 'Категория, в которой числится экспонат' })
   category: Category;
 }

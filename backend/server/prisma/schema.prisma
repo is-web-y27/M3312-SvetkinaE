@@ -23,11 +23,12 @@ model Category {
 }
 
 model Exhibit {
-  id          Int          @id @default(autoincrement())
-  title       String
-  description String
-  createdAt   DateTime     @default(now())
-  categoryId  Int
+  id            Int          @id @default(autoincrement())
+  title         String
+  description   String
+  coverImageUrl String?
+  createdAt     DateTime     @default(now())
+  categoryId    Int
   category    Category     @relation(fields: [categoryId], references: [id])
   news        News[]
   reviews     Review[]

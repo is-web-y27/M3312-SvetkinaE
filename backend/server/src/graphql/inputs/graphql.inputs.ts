@@ -46,6 +46,9 @@ export class CreateExhibitInput {
 
   @Field(() => Int, { description: 'Идентификатор категории' })
   categoryId: number;
+
+  @Field(() => String, { nullable: true, description: 'URL обложки' })
+  coverImageUrl?: string | null;
 }
 
 @InputType({ description: 'Данные для правки экспоната' })
@@ -58,6 +61,9 @@ export class UpdateExhibitInput {
 
   @Field(() => Int, { nullable: true, description: 'Новая категория' })
   categoryId?: number;
+
+  @Field(() => String, { nullable: true, description: 'Новый URL обложки' })
+  coverImageUrl?: string | null;
 }
 
 @InputType({ description: 'Данные для публикации новости' })

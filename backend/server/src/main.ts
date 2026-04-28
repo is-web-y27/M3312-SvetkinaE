@@ -7,6 +7,7 @@ import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import hbs from 'hbs';
 import { AppHttpExceptionFilter } from './filters/app-http-exception.filter';
+import type { NextFunction, Response } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -33,6 +34,23 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, document);
+
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.use('/graphql', (_req: unknown, res: Response, next: NextFunction) => {
+    const started = Date.now();
+    const prevEnd = res.end.bind(res);
+    res.end = (...args: unknown[]) => {
+      try {
+        if (!res.getHeader('x-elapsed-time')) {
+          res.setHeader('X-Elapsed-Time', String(Date.now() - started));
+        }
+      } catch {
+        //
+      }
+      return prevEnd(...args);
+    };
+    next();
+  });
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') ?? 3000;

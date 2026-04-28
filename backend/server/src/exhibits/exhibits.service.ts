@@ -5,6 +5,7 @@ type ExhibitInput = {
   title: string;
   description: string;
   categoryId: number;
+  coverImageUrl?: string | null;
 };
 
 @Injectable()

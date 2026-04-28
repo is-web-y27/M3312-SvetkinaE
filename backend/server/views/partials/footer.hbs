@@ -3,6 +3,9 @@
   <p class="footer__text">📧 Email: future@museum.ru</p>
   <p class="footer__text">📍 Адрес: Виртуальное пространство, сектор 2077</p>
   <div class="footer__banner">Большой баннер: специальные экскурсии — только в ноябре!</div>
+  <p class="footer__text footer__timing" id="timing-line">
+    Сервер: {{#if serverElapsedMs}}{{serverElapsedMs}}{{else}}—{{/if}} мс · клиент: <span id="client-ms">…</span> мс
+  </p>
   <div id="map" style="height: 360px; margin-top: 20px;"></div>
   <p id="footer-info" class="footer__text"></p>
 </footer>
@@ -22,5 +25,11 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var el = document.getElementById('client-ms');
+    if (el) el.textContent = String(Math.round(typeof performance !== 'undefined' ? performance.now() : 0));
+  });
+</script>
 </body>
 </html>

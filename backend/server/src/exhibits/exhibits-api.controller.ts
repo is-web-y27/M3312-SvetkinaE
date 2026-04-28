@@ -3,19 +3,28 @@ import {
   Controller,
   Delete,
   Get,
+  MaxFileSizeValidator,
+  ParseFilePipe,
+  FileTypeValidator,
   Param,
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
   Query,
   Req,
   Res,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import {
   ApiBadRequestResponse,
+  ApiBody,
   ApiConflictResponse,
+  ApiConsumes,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -25,18 +34,28 @@ import {
 import type { Request, Response } from 'express';
 import { PaginationQueryDto, normalizePagination } from '../common/dto/pagination-query.dto';
 import { setPaginationLinkHeader } from '../common/pagination-links';
+import { RestCache } from '../common/decorators/rest-cache.decorator';
+import { RestEtagInterceptor } from '../common/interceptors/rest-etag.interceptor';
+import { StorageService } from '../storage/storage.service';
 import { CreateExhibitDto } from './dto/create-exhibit.dto';
 import { UpdateExhibitDto } from './dto/update-exhibit.dto';
 import { ExhibitsService } from './exhibits.service';
 
 @ApiTags('exhibits')
 @Controller('api/exhibits')
+@UseInterceptors(RestEtagInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true, forbidNonWhitelisted: true }))
 export class ExhibitsApiController {
-  constructor(private readonly exhibitsService: ExhibitsService) {}
+  constructor(
+    private readonly exhibitsService: ExhibitsService,
+    private readonly storageService: StorageService,
+  ) {}
 
   @Get()
-  @ApiOperation({ summary: 'Список экспонатов (пагинация, заголовок Link)' })
+  @RestCache(3600)
+  @UseInterceptors(CacheInterceptor)
+  @CacheTTL(8000)
+  @ApiOperation({ summary: 'Список экспонатов (пагинация, серверный кэш несколько сек, Link, ETag)' })
   @ApiOkResponse({ description: 'Массив экспонатов с категорией' })
   @ApiBadRequestResponse({ description: 'Некорректные query page/limit' })
   async list(
@@ -51,6 +70,7 @@ export class ExhibitsApiController {
   }
 
   @Get(':id/reviews/:reviewId')
+  @RestCache(120)
   @ApiOperation({ summary: 'Один отзыв в контексте экспоната' })
   @ApiOkResponse({ description: 'Отзыв' })
   @ApiNotFoundResponse()
@@ -62,6 +82,7 @@ export class ExhibitsApiController {
   }
 
   @Get(':id/reviews')
+  @RestCache(120)
   @ApiOperation({ summary: 'Все отзывы экспоната' })
   @ApiOkResponse({ description: 'Страница отзывов' })
   @ApiBadRequestResponse()
@@ -82,6 +103,7 @@ export class ExhibitsApiController {
   }
 
   @Get(':id/news/:newsId')
+  @RestCache(120)
   @ApiOperation({ summary: 'Одна новость в контексте экспоната' })
   @ApiOkResponse({ description: 'Новость' })
   @ApiNotFoundResponse()
@@ -93,6 +115,7 @@ export class ExhibitsApiController {
   }
 
   @Get(':id/news')
+  @RestCache(120)
   @ApiOperation({ summary: 'Все новости экспоната' })
   @ApiOkResponse({ description: 'Страница новостей' })
   @ApiBadRequestResponse()
@@ -108,7 +131,46 @@ export class ExhibitsApiController {
     return data;
   }
 
+  @Post(':id/cover')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: { file: { type: 'string', format: 'binary' } },
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: 2 * 1024 * 1024 },
+    }),
+  )
+  @ApiOperation({ summary: 'Загрузить обложку экспоната в Object Storage и сохранить публичный URL' })
+  @ApiOkResponse({ description: 'Обновлённый экспонат' })
+  @ApiBadRequestResponse()
+  @ApiNotFoundResponse()
+  async uploadCover(
+    @Param('id', ParseIntPipe) id: number,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 2 * 1024 * 1024 }),
+          new FileTypeValidator({ fileType: /^image\/(jpeg|jpg|png|webp|gif)$/i }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    const url = await this.storageService.uploadPublicObject({
+      buffer: file.buffer,
+      contentType: file.mimetype,
+      keyPrefix: `exhibits/${id}`,
+    });
+    return this.exhibitsService.update(id, { coverImageUrl: url });
+  }
+
   @Get(':id')
+  @RestCache(3600)
   @ApiOperation({ summary: 'Один экспонат' })
   @ApiOkResponse({ description: 'Экспонат с категорией' })
   @ApiNotFoundResponse()
@@ -122,7 +184,12 @@ export class ExhibitsApiController {
   @ApiBadRequestResponse()
   @ApiConflictResponse({ description: 'Конфликт уникальности (редко)' })
   create(@Body() dto: CreateExhibitDto) {
-    return this.exhibitsService.create(dto);
+    return this.exhibitsService.create({
+      title: dto.title,
+      description: dto.description,
+      categoryId: dto.categoryId,
+      coverImageUrl: dto.coverImageUrl ?? undefined,
+    });
   }
 
   @Patch(':id')

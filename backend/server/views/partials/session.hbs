@@ -1,9 +1,12 @@
 <div class="session-info">
   {{#if isAuth}}
     <span>Вы вошли как <strong>{{userName}}</strong></span>
-    <a class="nav__link" href="?auth=0">Выйти</a>
+    <form method="post" action="/auth/logout/form" style="display:inline;margin:0;padding:0">
+      <button type="submit" class="nav__link"
+        style="background:none;border:none;cursor:pointer;color:inherit;font:inherit;padding:0;text-decoration:underline">Выйти</button>
+    </form>
   {{else}}
     <span>Вы не авторизованы</span>
-    <a class="nav__link" href="?auth=1">Войти</a>
+    <a class="nav__link" href="/auth/login">Войти</a>
   {{/if}}
 </div>

@@ -1,0 +1,20 @@
+{{> head}}
+<body class="page">
+  {{> header}}
+  <main class="main section">
+    <h1 class="section__title">Вход</h1>
+    <form class="feedback-form" method="post" action="/auth/login/form">
+      <input type="hidden" name="returnUrl" value="{{returnUrl}}" />
+      <label>
+        Email
+        <input type="email" name="email" required autocomplete="username" />
+      </label>
+      <label>
+        Пароль
+        <input type="password" name="password" required autocomplete="current-password" />
+      </label>
+      <button type="submit">Войти</button>
+    </form>
+    <p class="section__text">Нет аккаунта? <a href="/auth/register">Зарегистрируйтесь</a></p>
+  </main>
+  {{> footer}}

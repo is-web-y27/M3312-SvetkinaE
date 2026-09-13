@@ -22,6 +22,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiConflictResponse,
   ApiConsumes,
@@ -40,6 +41,7 @@ import { StorageService } from '../storage/storage.service';
 import { CreateExhibitDto } from './dto/create-exhibit.dto';
 import { UpdateExhibitDto } from './dto/update-exhibit.dto';
 import { ExhibitsService } from './exhibits.service';
+import { RequireAdmin, RequireJwt } from '../auth/decorators/secured.decorators';
 
 @ApiTags('exhibits')
 @Controller('api/exhibits')
@@ -131,6 +133,8 @@ export class ExhibitsApiController {
     return data;
   }
 
+  @RequireAdmin()
+  @ApiBearerAuth('jwt-auth')
   @Post(':id/cover')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -178,6 +182,8 @@ export class ExhibitsApiController {
     return this.exhibitsService.findOne(id);
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Post()
   @ApiOperation({ summary: 'Создать экспонат' })
   @ApiCreatedResponse({ description: 'Созданный экспонат' })
@@ -192,6 +198,8 @@ export class ExhibitsApiController {
     });
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Patch(':id')
   @ApiOperation({ summary: 'Частично обновить экспонат' })
   @ApiOkResponse({ description: 'Обновлённый экспонат' })
@@ -201,6 +209,8 @@ export class ExhibitsApiController {
     return this.exhibitsService.update(id, dto);
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Delete(':id')
   @ApiOperation({ summary: 'Удалить экспонат' })
   @ApiOkResponse({ description: 'Удалённый экспонат' })

@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -28,6 +29,7 @@ import { setPaginationLinkHeader } from '../common/pagination-links';
 import { CreateVisitorDto } from './dto/create-visitor.dto';
 import { UpdateVisitorDto } from './dto/update-visitor.dto';
 import { VisitorsService } from './visitors.service';
+import { RequireAdmin } from '../auth/decorators/secured.decorators';
 
 @ApiTags('visitors')
 @Controller('api/visitors')
@@ -90,6 +92,8 @@ export class VisitorsApiController {
     return this.visitorsService.findOne(id);
   }
 
+  @RequireAdmin()
+  @ApiBearerAuth('jwt-auth')
   @Post()
   @ApiOperation({ summary: 'Создать посетителя' })
   @ApiCreatedResponse({ description: 'Созданный посетитель' })
@@ -99,6 +103,8 @@ export class VisitorsApiController {
     return this.visitorsService.create(dto);
   }
 
+  @RequireAdmin()
+  @ApiBearerAuth('jwt-auth')
   @Patch(':id')
   @ApiOperation({ summary: 'Частично обновить посетителя' })
   @ApiOkResponse({ description: 'Обновлённый посетитель' })
@@ -109,6 +115,8 @@ export class VisitorsApiController {
     return this.visitorsService.update(id, dto);
   }
 
+  @RequireAdmin()
+  @ApiBearerAuth('jwt-auth')
   @Delete(':id')
   @ApiOperation({ summary: 'Удалить посетителя' })
   @ApiOkResponse({ description: 'Удалённый посетитель' })

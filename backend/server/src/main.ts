@@ -8,9 +8,23 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import hbs from 'hbs';
 import { AppHttpExceptionFilter } from './filters/app-http-exception.filter';
 import type { NextFunction, Response } from 'express';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.use(cookieParser());
+
+  const corsOrigins =
+    process.env.CORS_ORIGINS?.split(',')
+      .map((s) => s.trim())
+      .filter(Boolean) ?? ['http://localhost:3000', 'http://127.0.0.1:3000'];
+  app.enableCors({
+    origin: corsOrigins.length ? corsOrigins : true,
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  });
 
   app.useGlobalFilters(new AppHttpExceptionFilter());
   app.useGlobalPipes(
@@ -21,16 +35,26 @@ async function bootstrap() {
     }),
   );
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  // Шаблоны и static лежат в server/views и server/public (не в dist/).
+  const appRoot = process.cwd();
+  app.useStaticAssets(join(appRoot, 'public'));
+  app.setBaseViewsDir(join(appRoot, 'views'));
   app.setViewEngine('hbs');
-  hbs.registerPartials(join(__dirname, '..', 'views', 'partials'));
-  hbs.registerHelper('authQ', (isAuth: boolean) => (isAuth ? '?auth=1' : ''));
+  hbs.registerPartials(join(appRoot, 'views', 'partials'));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Музей технологий API')
     .setDescription('REST API по доменной модели ЛР 2–4')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'Токен из POST /auth/login или cookie access_token (для Swagger введите raw JWT).',
+      },
+      'jwt-auth',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, document);

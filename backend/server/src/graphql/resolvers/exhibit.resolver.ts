@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { RequireJwt } from '../../auth/decorators/secured.decorators';
 import { ExhibitsService } from '../../exhibits/exhibits.service';
 import { CreateExhibitInput, UpdateExhibitInput } from '../inputs/graphql.inputs';
 import { Exhibit } from '../types/exhibit.graphql-type';
@@ -22,11 +23,13 @@ export class ExhibitGraphqlResolver {
     return { items: data, total, limit, offset };
   }
 
+  @RequireJwt()
   @Mutation(() => Exhibit, { description: 'Добавить новый экспонат в каталог' })
   createExhibit(@Args('input') input: CreateExhibitInput) {
     return this.exhibitsService.create(input);
   }
 
+  @RequireJwt()
   @Mutation(() => Exhibit, { description: 'Обновить сведения об экспонате' })
   updateExhibit(
     @Args('id', { type: () => Int }) id: number,
@@ -35,6 +38,7 @@ export class ExhibitGraphqlResolver {
     return this.exhibitsService.update(id, input);
   }
 
+  @RequireJwt()
   @Mutation(() => Boolean, { description: 'Удалить экспонат из каталога' })
   async deleteExhibit(@Args('id', { type: () => Int }) id: number) {
     await this.exhibitsService.remove(id);

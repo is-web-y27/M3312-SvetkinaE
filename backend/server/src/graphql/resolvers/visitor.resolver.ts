@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { RequireAdmin } from '../../auth/decorators/secured.decorators';
 import { VisitorsService } from '../../visitors/visitors.service';
 import { CreateVisitorInput, UpdateVisitorInput } from '../inputs/graphql.inputs';
 import { ReviewsPage, VisitorsPage } from '../types/pages.graphql-type';
@@ -22,11 +23,13 @@ export class VisitorGraphqlResolver {
     return { items: data, total, limit, offset };
   }
 
+  @RequireAdmin()
   @Mutation(() => Visitor, { description: 'Зарегистрировать нового посетителя' })
   createVisitor(@Args('input') input: CreateVisitorInput) {
     return this.visitorsService.create(input);
   }
 
+  @RequireAdmin()
   @Mutation(() => Visitor, { description: 'Обновить данные посетителя' })
   updateVisitor(
     @Args('id', { type: () => Int }) id: number,
@@ -35,6 +38,7 @@ export class VisitorGraphqlResolver {
     return this.visitorsService.update(id, input);
   }
 
+  @RequireAdmin()
   @Mutation(() => Boolean, { description: 'Удалить запись о посетителе' })
   async deleteVisitor(@Args('id', { type: () => Int }) id: number) {
     await this.visitorsService.remove(id);

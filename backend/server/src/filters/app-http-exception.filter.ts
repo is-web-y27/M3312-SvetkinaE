@@ -4,12 +4,15 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import type { Request, Response } from 'express';
 
 @Catch()
 export class AppHttpExceptionFilter implements ExceptionFilter {
+  private readonly logger = new Logger(AppHttpExceptionFilter.name);
+
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
@@ -31,9 +34,17 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
         return res.status(404).render('pages/error', {
           title: 'Не найдено',
           message,
-          isAuth: false,
-          userName: 'Гость',
+          isAuth: res.locals?.isAuth ?? false,
+          userName: res.locals?.userName ?? 'Гость',
         });
+      }
+
+      if (
+        (status === HttpStatus.UNAUTHORIZED || status === HttpStatus.FORBIDDEN) &&
+        prefersHtml
+      ) {
+        const returnUrl = encodeURIComponent(req.originalUrl || '/');
+        return res.redirect(HttpStatus.FOUND, `/auth/login?returnUrl=${returnUrl}`);
       }
 
       return res.status(status).json(
@@ -49,8 +60,8 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
           return res.status(404).render('pages/error', {
             title: 'Не найдено',
             message: 'Запись не найдена',
-            isAuth: false,
-            userName: 'Гость',
+            isAuth: res.locals?.isAuth ?? false,
+            userName: res.locals?.userName ?? 'Гость',
           });
         }
         return res.status(404).json({ statusCode: 404, message: 'Запись не найдена' });
@@ -61,6 +72,12 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
           message: 'Конфликт уникальности данных',
         });
       }
+    }
+
+    if (!(exception instanceof HttpException)) {
+      this.logger.error(
+        exception instanceof Error ? exception.stack ?? exception.message : String(exception),
+      );
     }
 
     return res.status(500).json({

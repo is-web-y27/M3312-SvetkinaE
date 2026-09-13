@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -27,6 +28,7 @@ import { setPaginationLinkHeader } from '../common/pagination-links';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { ReviewsService } from './reviews.service';
+import { RequireJwt } from '../auth/decorators/secured.decorators';
 
 @ApiTags('reviews')
 @Controller('api/reviews')
@@ -57,6 +59,8 @@ export class ReviewsApiController {
     return this.reviewsService.findOne(id);
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Post()
   @ApiOperation({ summary: 'Создать отзыв' })
   @ApiCreatedResponse({ description: 'Созданный отзыв' })
@@ -65,6 +69,8 @@ export class ReviewsApiController {
     return this.reviewsService.create(dto);
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Patch(':id')
   @ApiOperation({ summary: 'Частично обновить отзыв' })
   @ApiOkResponse({ description: 'Обновлённый отзыв' })
@@ -74,6 +80,8 @@ export class ReviewsApiController {
     return this.reviewsService.update(id, dto);
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Delete(':id')
   @ApiOperation({ summary: 'Удалить отзыв' })
   @ApiOkResponse({ description: 'Удалённый отзыв' })

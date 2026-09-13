@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -27,6 +28,7 @@ import { setPaginationLinkHeader } from '../common/pagination-links';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { NewsService } from './news.service';
+import { RequireJwt } from '../auth/decorators/secured.decorators';
 
 @ApiTags('news')
 @Controller('api/news')
@@ -57,6 +59,8 @@ export class NewsApiController {
     return this.newsService.findOne(id);
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Post()
   @ApiOperation({ summary: 'Создать новость' })
   @ApiCreatedResponse({ description: 'Созданная новость' })
@@ -69,6 +73,8 @@ export class NewsApiController {
     });
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Patch(':id')
   @ApiOperation({ summary: 'Частично обновить новость' })
   @ApiOkResponse({ description: 'Обновлённая новость' })
@@ -82,6 +88,8 @@ export class NewsApiController {
     });
   }
 
+  @RequireJwt()
+  @ApiBearerAuth('jwt-auth')
   @Delete(':id')
   @ApiOperation({ summary: 'Удалить новость' })
   @ApiOkResponse({ description: 'Удалённая новость' })

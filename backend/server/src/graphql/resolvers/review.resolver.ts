@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { RequireJwt } from '../../auth/decorators/secured.decorators';
 import { ReviewsService } from '../../reviews/reviews.service';
 import { CreateReviewInput, UpdateReviewInput } from '../inputs/graphql.inputs';
 import { ReviewsPage } from '../types/pages.graphql-type';
@@ -22,11 +23,13 @@ export class ReviewGraphqlResolver {
     return { items: data, total, limit, offset };
   }
 
+  @RequireJwt()
   @Mutation(() => Review, { description: 'Оставить новый отзыв об экспонате' })
   leaveReview(@Args('input') input: CreateReviewInput) {
     return this.reviewsService.create(input);
   }
 
+  @RequireJwt()
   @Mutation(() => Review, { description: 'Изменить текст или оценку в отзыве' })
   amendReview(
     @Args('id', { type: () => Int }) id: number,
@@ -35,6 +38,7 @@ export class ReviewGraphqlResolver {
     return this.reviewsService.update(id, input);
   }
 
+  @RequireJwt()
   @Mutation(() => Boolean, { description: 'Удалить отзыв' })
   async removeReview(@Args('id', { type: () => Int }) id: number) {
     await this.reviewsService.remove(id);

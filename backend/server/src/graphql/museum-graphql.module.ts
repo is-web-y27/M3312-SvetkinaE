@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import type { Request, Response } from 'express';
 import depthLimit from 'graphql-depth-limit';
 import { createComplexityRule, simpleEstimator } from 'graphql-query-complexity';
 import { CategoriesModule } from '../categories/categories.module';
@@ -22,6 +23,7 @@ import { VisitorGraphqlResolver } from './resolvers/visitor.resolver';
       autoSchemaFile: true,
       sortSchema: true,
       playground: process.env.NODE_ENV !== 'production',
+      context: ({ req, res }: { req: Request; res: Response }) => ({ req, res }),
       validationRules: [
         depthLimit(12),
         createComplexityRule({

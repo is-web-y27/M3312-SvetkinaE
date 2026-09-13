@@ -10,13 +10,15 @@
       {{#if item.exhibit}}
         <p>Экспонат: {{item.exhibit.title}}</p>
       {{/if}}
+      {{#if isAuth}}
       <p>
-        <a href="/news/{{item.id}}/edit{{authQ isAuth}}">Редактировать</a>
+        <a href="/news/{{item.id}}/edit">Редактировать</a>
       </p>
-      <form method="post" action="/news/{{item.id}}/delete{{authQ isAuth}}">
+      <form method="post" action="/news/{{item.id}}/delete">
         <button type="submit">Удалить</button>
       </form>
-      <p><a href="/news{{authQ isAuth}}">Назад к списку</a></p>
+      {{/if}}
+      <p><a href="/news">Назад к списку</a></p>
     </section>
   </main>
 

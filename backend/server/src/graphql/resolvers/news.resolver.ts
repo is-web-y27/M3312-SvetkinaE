@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { RequireJwt } from '../../auth/decorators/secured.decorators';
 import { NewsService } from '../../news/news.service';
 import { CreateNewsInput, UpdateNewsInput } from '../inputs/graphql.inputs';
 import { News } from '../types/news.graphql-type';
@@ -22,6 +23,7 @@ export class NewsGraphqlResolver {
     return { items: data, total, limit, offset };
   }
 
+  @RequireJwt()
   @Mutation(() => News, { description: 'Опубликовать новость' })
   publishNews(@Args('input') input: CreateNewsInput) {
     return this.newsService.create({
@@ -31,6 +33,7 @@ export class NewsGraphqlResolver {
     });
   }
 
+  @RequireJwt()
   @Mutation(() => News, { description: 'Отредактировать существующую новость' })
   editNews(
     @Args('id', { type: () => Int }) id: number,
@@ -39,6 +42,7 @@ export class NewsGraphqlResolver {
     return this.newsService.update(id, input);
   }
 
+  @RequireJwt()
   @Mutation(() => Boolean, { description: 'Снять новость с публикации (удалить запись)' })
   async withdrawNews(@Args('id', { type: () => Int }) id: number) {
     await this.newsService.remove(id);

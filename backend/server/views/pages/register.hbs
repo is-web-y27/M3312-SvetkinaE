@@ -1,0 +1,22 @@
+{{> head}}
+<body class="page">
+  {{> header}}
+  <main class="main section">
+    <h1 class="section__title">Регистрация</h1>
+    {{#if error}}
+      <p class="section__text" style="color: #c0392b;">{{error}}</p>
+    {{/if}}
+    <form class="feedback-form" method="post" action="/auth/register/form">
+      <label>
+        Email
+        <input type="email" name="email" required autocomplete="username" />
+      </label>
+      <label>
+        Пароль
+        <input type="password" name="password" required minlength="4" autocomplete="new-password" />
+      </label>
+      <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p class="section__text">Уже есть аккаунт? <a href="/auth/login">Войти</a></p>
+  </main>
+  {{> footer}}

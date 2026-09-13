@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Отзывы — Музей технологий будущего</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="header__inner">
+        <h1 class="header__title">Музей технологий будущего</h1>
+        <nav class="nav">
+            <ul class="nav__list">
+                <li><a href="index.html" class="nav__link">Главная</a></li>
+                <li><a href="feedback.html" class="nav__link">Оставить отзыв</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<main class="comments-container">
+    <h1>Отзывы посетителей</h1>
+
+    <div id="loader" class="loader hidden"></div>
+
+    <div id="error" class="error hidden"></div>
+
+    <button id="loadBtn" class="load-btn">Загрузить другие отзывы</button>
+
+    <div id="commentsList"></div>
+</main>
+
+<script src="../js/reviews.js"></script>
+</body>
+</html>

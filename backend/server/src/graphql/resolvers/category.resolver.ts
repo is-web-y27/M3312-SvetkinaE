@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { RequireAdmin } from '../../auth/decorators/secured.decorators';
 import { CategoriesService } from '../../categories/categories.service';
 import { CreateCategoryInput, UpdateCategoryInput } from '../inputs/graphql.inputs';
 import { Category } from '../types/category.graphql-type';
@@ -22,11 +23,13 @@ export class CategoryGraphqlResolver {
     return { items: data, total, limit, offset };
   }
 
+  @RequireAdmin()
   @Mutation(() => Category, { description: 'Добавить новую категорию экспонатов' })
   createCategory(@Args('input') input: CreateCategoryInput) {
     return this.categoriesService.create(input);
   }
 
+  @RequireAdmin()
   @Mutation(() => Category, { description: 'Изменить существующую категорию' })
   updateCategory(
     @Args('id', { type: () => Int }) id: number,
@@ -35,6 +38,7 @@ export class CategoryGraphqlResolver {
     return this.categoriesService.update(id, input);
   }
 
+  @RequireAdmin()
   @Mutation(() => Boolean, { description: 'Удалить категорию по идентификатору' })
   async deleteCategory(@Args('id', { type: () => Int }) id: number) {
     await this.categoriesService.remove(id);

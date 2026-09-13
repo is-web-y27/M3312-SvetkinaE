@@ -16,6 +16,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -31,6 +32,7 @@ import { RestEtagInterceptor } from '../common/interceptors/rest-etag.intercepto
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { RequireAdmin } from '../auth/decorators/secured.decorators';
 
 @ApiTags('categories')
 @Controller('api/categories')
@@ -98,6 +100,8 @@ export class CategoriesApiController {
     return this.categoriesService.findOne(id);
   }
 
+  @RequireAdmin()
+  @ApiBearerAuth('jwt-auth')
   @Post()
   @ApiOperation({ summary: 'Создать категорию' })
   @ApiCreatedResponse({ description: 'Созданная категория' })
@@ -107,6 +111,8 @@ export class CategoriesApiController {
     return this.categoriesService.create(dto);
   }
 
+  @RequireAdmin()
+  @ApiBearerAuth('jwt-auth')
   @Patch(':id')
   @ApiOperation({ summary: 'Частично обновить категорию' })
   @ApiOkResponse({ description: 'Обновлённая категория' })
@@ -116,6 +122,8 @@ export class CategoriesApiController {
     return this.categoriesService.update(id, dto);
   }
 
+  @RequireAdmin()
+  @ApiBearerAuth('jwt-auth')
   @Delete(':id')
   @ApiOperation({ summary: 'Удалить категорию' })
   @ApiOkResponse({ description: 'Удалённая категория' })
